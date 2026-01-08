@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trả lời dùm anh câu hỏi=>>?</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        background: url("https://i.pinimg.com/736x/4a/41/e9/4a41e91df53c7c93dc8bbc218f9f0e69.jpg")
+          no-repeat center center fixed;
+        background-size: cover;
+      }
+
+      #intro-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 99999;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      #intro-overlay button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #f582ae;
+        border: none;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        color: white;
+      }
+
+      main {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #001858;
+      }
+
+      .btn-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .btn-container {
+        padding: 10px;
+        width: 100px;
+        background-color: #f582ae;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .btn-container button {
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      #no {
+        position: relative;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+
+      .shine {
+        box-shadow: 0 0 20px 10px #ff90b3;
+        transition: box-shadow 0.5s ease-in-out;
+      }
+
+      .heart,
+      .letter,
+      .falling-text {
+        position: fixed;
+        top: -50px;
+        font-size: 30px;
+        z-index: 9999;
+        pointer-events: none;
+      }
+
+      .letter {
+        animation: fall 5s linear infinite;
+      }
+
+      .falling-text {
+        animation: fall-text 8s linear infinite;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh);
+          opacity: 0;
+        }
+      }
+
+      @keyframes fall-text {
+        to {
+          transform: translateY(110vh);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 6vw;
+          padding: 0 10px;
+        }
+
+        .btn-row {
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .btn-container {
+          width: 80vw;
+          max-width: 250px;
+        }
+
+        .gif-love {
+          width: 80px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="intro-overlay">
+      <h2>Bấm vào đây để bắt đầu yêu thương 💖</h2>
+      <button id="start-btn">Bắt đầu</button>
+    </div>
+
+    <main>
+      <audio id="bgm1" src="nhac1.mp3" loop></audio>
+      <audio id="bgm2" src="nhac2.mp3" loop></audio>
+      <audio id="hoverSound" src="hover.mp3"></audio>
+      <audio id="clickSound" src="click.mp3"></audio>
+
+      <img
+        src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMjFhaThodjJkajNrd3Z3a2NmNDcxYTFqangybDZiMmk5cTR4MXVnOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6FxJBpNTBgWdJCXKD4/giphy.gif"
+        alt="Yêu thương"
+        class="gif-love"
+        style="width: 120px; margin-bottom: 10px; border-radius: 12px"
+      />
+      <h1>Eim Có Yêu Anh Không??????</h1>
+      <div class="btn-row" id="btn-row">
+        <div id="yes" class="btn-container">
+          <button type="button" id="yes-btn">Dạ có ạ!!!</button>
+        </div>
+        <div id="no" class="btn-container">
+          <button type="button" id="no-btn">Đéo!!!</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const no = document.getElementById("no");
+      const noBtn = document.getElementById("no-btn");
+      const yesBtn = document.getElementById("yes-btn");
+      const yesContainer = document.getElementById("yes");
+
+      const bgm1 = document.getElementById("bgm1");
+      const bgm2 = document.getElementById("bgm2");
+      const hoverSound = document.getElementById("hoverSound");
+      const clickSound = document.getElementById("clickSound");
+
+      const startBtn = document.getElementById("start-btn");
+      const overlay = document.getElementById("intro-overlay");
+
+      startBtn.addEventListener("click", () => {
+        overlay.style.display = "none";
+        bgm1.volume = 0.1;
+        bgm1.play();
+      });
+
+      let shineTimer;
+
+      noBtn.addEventListener("mouseenter", () => {
+        hoverSound.currentTime = 0;
+        hoverSound.play();
+
+        no.style.position = "fixed";
+        const padding = 20;
+        const maxX = window.innerWidth - no.offsetWidth - padding;
+        const maxY = window.innerHeight - no.offsetHeight - padding;
+
+        const x = Math.floor(Math.random() * maxX);
+        const y = Math.floor(Math.random() * maxY);
+
+        no.style.left = `${x}px`;
+        no.style.top = `${y}px`;
+      });
+
+      yesBtn.addEventListener("mouseenter", () => {
+        shineTimer = setTimeout(() => {
+          yesContainer.classList.add("shine");
+        }, 1000);
+      });
+
+      yesBtn.addEventListener("mouseleave", () => {
+        clearTimeout(shineTimer);
+        yesContainer.classList.remove("shine");
+      });
+
+      const emojiItems = ["💌", "💖", "💝", "💕", "💘", "💗"];
+      const textItems = [
+        "Anh Biết Mà=)))",
+        "Khen vậy anh ngại đó!!!",
+        "Cảm ơn em ạ=))",
+        "Anh yêu em nhiều lắm!!!!",
+        "Kiều Đáng Yêu Nhất !!!<3",
+      ];
+
+      function createRainEmoji() {
+        const item = emojiItems[Math.floor(Math.random() * emojiItems.length)];
+        const el = document.createElement("div");
+        el.className = "letter";
+        el.innerText = item;
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.fontSize = Math.random() * 20 + 20 + "px";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }
+
+      function createRainText() {
+        const item = textItems[Math.floor(Math.random() * textItems.length)];
+        const el = document.createElement("div");
+        el.className = "falling-text";
+        el.innerText = item;
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.fontSize = Math.random() * 20 + 20 + "px";
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 8000);
+      }
+
+      function explodeHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "💖";
+        heart.style.top = yesBtn.offsetTop - 50 + "px";
+        heart.style.left = yesBtn.offsetLeft + "px";
+        heart.style.fontSize = "80px";
+        heart.style.transition = "transform 0.3s ease";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+      }
+
+      yesBtn.addEventListener("click", () => {
+        clickSound.currentTime = 0;
+        clickSound.play();
+
+        bgm1.pause();
+        bgm2.currentTime = 0;
+        bgm2.volume = 0.2;
+        bgm2.play();
+
+        explodeHeart();
+
+        setInterval(() => {
+          createRainEmoji();
+        }, 1000 / 100);
+
+        setInterval(() => {
+          createRainText();
+        }, 1000 / 15);
+      });
+    </script>
+  </body>
+</html>
